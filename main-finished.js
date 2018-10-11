@@ -1,6 +1,7 @@
-var para = document.querySelector('p');
+var para = document.getElementById('ballcounter');
+var timer=document.getElementById('timecounter');
 var count = 0;
-var areyounotentertained=30;  // number of balls
+var areyounotentertained=20;  // number of balls
 // setup canvas
 
 var canvas = document.querySelector('canvas');
@@ -8,6 +9,13 @@ var ctx = canvas.getContext('2d');
 
 var width = canvas.width = window.innerWidth;
 var height = canvas.height = window.innerHeight;
+
+var gltime=0;
+
+function updateTimer(){
+  gltime+=1;
+  timer.textContent = "Time : " + gltime/100;
+}
 
 function random(min,max) {
   var num = Math.floor(Math.random()*(max-min)) + min;
@@ -204,9 +212,14 @@ window.onkeydown = function(e) {
 var balls = [];
 
 function loop() {
+  if(count==0)
+  {
+    clearTimeout(updateTimer);
+  }
   ctx.fillStyle = 'rgba(0,0,0,0.25)';
   ctx.fillRect(0,0,width,height);
-
+  if(count!=0)
+    setTimeout(updateTimer,1000);
   while(balls.length < areyounotentertained) {
     var size = random(10,20);
     var ball = new Ball(
@@ -234,11 +247,11 @@ function loop() {
   }
 
   evil1.draw();
-  evil2.draw();
+  //evil2.draw();
   evil1.checkBounds();
-  evil2.checkBounds();
+  //evil2.checkBounds();
   evil1.collisionDetect();
-  evil2.collisionDetect();
+  //evil2.collisionDetect();
 
   requestAnimationFrame(loop);
 }
